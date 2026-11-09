@@ -1,0 +1,79 @@
+/**
+ * Typography Adjustment for AdminLTE v4
+ * Font Family: Inter
+ * Consistent application across sidebar, navbar, dashboard, tables, forms, buttons, and cards.
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+:root,
+[data-bs-theme=light],
+[data-bs-theme=dark] {
+    --bs-font-sans-serif: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    --bs-body-font-family: var(--bs-font-sans-serif);
+    --lte-font-sans: var(--bs-font-sans-serif);
+}
+
+body,
+.app-header,
+.app-sidebar,
+.app-main,
+.app-footer,
+.brand-text,
+.card,
+.card-header,
+.card-title,
+.card-body,
+.table,
+.table th,
+.table td,
+.btn,
+.form-control,
+.form-select,
+.form-label,
+.small-box,
+.info-box,
+.nav-link,
+.dropdown-menu,
+.dropdown-item,
+.modal,
+.alert,
+.badge {
+    font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
+}
+
+/* Proportional Typography Weights & Spacing */
+body {
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6,
+.card-title,
+.brand-text {
+    font-weight: 600;
+    letter-spacing: -0.015em;
+}
+
+.small-box .inner h3 {
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+.table th {
+    font-weight: 600;
+    font-size: 0.75rem;
+    letter-spacing: 0.03em;
+}
+
+.btn {
+    font-weight: 500;
+    letter-spacing: -0.01em;
+}
+
+.nav-link,
+.sidebar-menu a {
+    font-weight: 500;
+}

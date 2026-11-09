@@ -1,15 +1,19 @@
 <?php
 
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\ProjectController;
 use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
-| PBKK — Tugas 2 & 4
+| PBKK — Web Routes
 |--------------------------------------------------------------------------
 |
 | Tugas 2: Route Grouping, Parameter Validation, Named Routes.
 | Tugas 4: Multi-View Profil Akademik, Blade Components, Vite.
+| Tugas 5/6: Secure CRUD Academic Portal, Auth, Policies, Soft Delete, Transactions.
 |
 */
 
@@ -19,6 +23,38 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [PageController::class, 'home'])->name('home');
 Route::get('/profil-mahasiswa', [PageController::class, 'profile'])->name('profile');
 Route::get('/ide-agent', [PageController::class, 'agent'])->name('agent');
+
+// ──────────────────────────────────────────────
+// Autentikasi Sederhana
+// ──────────────────────────────────────────────
+Route::middleware('guest')->group(function () {
+    Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+    Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
+    Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
+    Route::post('/register', [AuthController::class, 'register'])->name('register.submit');
+});
+
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
+
+// ──────────────────────────────────────────────
+// Secure CRUD Academic Portal (Protected by Auth)
+// PENTING: Rute statis (trash, bulk-destroy) diletakkan
+// SEBELUM Route::resource agar tidak tertelan wildcard {project}.
+// ──────────────────────────────────────────────
+Route::middleware('auth')->group(function () {
+    // 0. Dashboard Overview (AdminLTE)
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    // 1. Trash & Restore
+    Route::get('/projects/trash', [ProjectController::class, 'trash'])->name('projects.trash');
+    Route::patch('/projects/{id}/restore', [ProjectController::class, 'restore'])->name('projects.restore');
+
+    // 2. Bulk Delete
+    Route::delete('/projects/bulk-destroy', [ProjectController::class, 'bulkDestroy'])->name('projects.bulk-destroy');
+
+    // 3. Resource Routes CRUD
+    Route::resource('projects', ProjectController::class);
+});
 
 // ──────────────────────────────────────────────
 // Tugas 2 — Route Grouping (Prefix "dashboard")

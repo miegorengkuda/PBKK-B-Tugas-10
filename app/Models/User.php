@@ -7,6 +7,7 @@ use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -28,5 +29,27 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    // ── Relationships ──────────────────────────────
+    public function projects(): HasMany
+    {
+        return $this->hasMany(Project::class);
+    }
+
+    // ── AdminLTE User Menu Helpers ─────────────────
+    public function adminlte_image(): string
+    {
+        return 'https://ui-avatars.com/api/?name=' . urlencode($this->name) . '&background=013880&color=fff&size=128';
+    }
+
+    public function adminlte_desc(): string
+    {
+        return $this->email;
+    }
+
+    public function adminlte_profile_url(): string
+    {
+        return route('profile');
     }
 }
